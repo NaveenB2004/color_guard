@@ -14,36 +14,37 @@
 </head>
 <body class="bg-light">
 
-    <!-- Container for Logo and Title -->
-    <div class="container mt-5 text-center">
-        <img src="img/AppLogo.png" alt="Logo" class="img-fluid mb-3" style="height: 200px;">
-        <h1 class="display-4">Color Guard</h1>
-    </div>
+<!-- Container for Logo and Title -->
+<div class="container mt-5 text-center">
+    <img src="img/AppLogo.png" alt="Logo" class="img-fluid mb-3" style="height: 200px;">
+    <h1 class="display-4">Color Guard</h1>
+</div>
 
-    <!-- Form Section -->
-    <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title text-center mb-4">Upload Screenshot for Annotation</h5>
-                        <form action="annotate.php" method="post" enctype="multipart/form-data">
-                            <div class="form-group mb-3">
-                                <label for="screenshot" class="form-label">Upload Screenshot:</label>
-                                <input type="file" class="form-control" name="screenshot" id="screenshot" accept="image/*" required>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <button type="reset" class="btn btn-secondary me-2 w-50">Reset</button>
-                                <button type="submit" class="btn btn-primary w-50">Annotate</button>
-                            </div>                            
-                        </form>
-                    </div>
+<!-- Form Section -->
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-4">Upload Screenshot for Annotation</h5>
+                    <form action="annotate.php" method="post" enctype="multipart/form-data">
+                        <div class="form-group mb-3">
+                            <label for="screenshot" class="form-label">Upload Screenshot:</label>
+                            <input type="file" class="form-control" name="screenshot" id="screenshot" accept="image/*"
+                                   required>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="reset" class="btn btn-secondary me-2 w-50">Reset</button>
+                            <button type="submit" class="btn btn-primary w-50">Annotate</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Bootstrap JS Bundle -->
-    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS Bundle -->
+<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

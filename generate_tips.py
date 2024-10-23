@@ -1,6 +1,7 @@
-import pickle
 import json
+import pickle
 import sys
+
 
 def load_model(model_path):
     try:
@@ -12,12 +13,15 @@ def load_model(model_path):
         print(f"Error loading model: {e}")
         return None
 
+
 def rgb_to_hex(color):
     return "#{:02x}{:02x}{:02x}".format(color[0], color[1], color[2])
 
+
 def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip('#')
-    return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+    return tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
+
 
 def generate_ui_tips(element_data, primary_color_hex, secondary_color_hex):
     primary_color = hex_to_rgb(primary_color_hex)
@@ -67,6 +71,7 @@ def generate_ui_tips(element_data, primary_color_hex, secondary_color_hex):
 
     return tips
 
+
 def main():
     element_data_file = sys.argv[1]
     primary_color_hex = sys.argv[2]
@@ -84,6 +89,7 @@ def main():
         json.dump(tips, f, indent=4)
 
     print(f"UI improvement tips generated and saved to {tips_output_file}")
+
 
 if __name__ == '__main__':
     main()

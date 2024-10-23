@@ -1,17 +1,21 @@
-import sys
-import cv2
-import os
-import tempfile
 import json
+import os
+import sys
+import tempfile
+
+import cv2
 from colorthief import ColorThief
+
 
 # Convert RGB tuple to hexadecimal color
 def rgb_to_hex(color):
     return "#{:02x}{:02x}{:02x}".format(color[0], color[1], color[2])
 
+
 # Check if color is close to white
 def is_near_white(color, threshold=240):
     return all(c >= threshold for c in color)
+
 
 def find_primary_and_secondary_colors(image_path):
     if not os.path.exists(image_path):
@@ -19,7 +23,7 @@ def find_primary_and_secondary_colors(image_path):
         return None, None
 
     ct = ColorThief(image_path)
-    
+
     # Get a larger palette of colors (12 colors)
     palette = ct.get_palette(color_count=12, quality=1)
 
@@ -47,6 +51,7 @@ def find_primary_and_secondary_colors(image_path):
 
     return primary_color, secondary_color
 
+
 # Function to get dominant color of a cropped element
 def dominant_color_of_element(cropped_image):
     if cropped_image is None or cropped_image.size == 0:
@@ -60,7 +65,7 @@ def dominant_color_of_element(cropped_image):
     with tempfile.NamedTemporaryFile(suffix='.jpg', delete=False) as temp_file:
         temp_filename = temp_file.name
         cv2.imwrite(temp_filename, rgb_cropped_image)
-    
+
     try:
         # Extract the dominant color
         ct = ColorThief(temp_filename)
@@ -75,6 +80,7 @@ def dominant_color_of_element(cropped_image):
             os.remove(temp_filename)
         except Exception as cleanup_error:
             print(f"Error cleaning up temp file: {cleanup_error}")
+
 
 # Function to classify the UI element based on its bounding box and size
 def classify_element(contour, image_shape):
@@ -94,12 +100,13 @@ def classify_element(contour, image_shape):
     else:
         return "Unknown"
 
+
 # Function to detect, annotate, and crop clickable elements
 def detect_clickable_elements(image_path):
     image = cv2.imread(image_path)
     if image is None:
         raise ValueError(f"Image not found or unable to load: {image_path}")
-    
+
     # Convert to grayscale and apply blur
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
@@ -133,7 +140,7 @@ def detect_clickable_elements(image_path):
             cv2.putText(annotated_image, element_type, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
 
             # Extract the cropped image for this element
-            cropped_image = image[y:y+h, x:x+w]  # Crop from the original image
+            cropped_image = image[y:y + h, x:x + w]  # Crop from the original image
             element_color = dominant_color_of_element(cropped_image)
 
             # Save the data if the color extraction was successful
@@ -165,6 +172,7 @@ def detect_clickable_elements(image_path):
 
     return annotated_image, element_data
 
+
 def main():
     # Get the image path from the command line argument
     image_path = sys.argv[1]
@@ -175,12 +183,13 @@ def main():
     # Print the primary and secondary colors to be captured by the PHP script
     primary_color_hex = rgb_to_hex(primary_color) if primary_color else "N/A"
     secondary_color_hex = rgb_to_hex(secondary_color) if secondary_color else "N/A"
-    
+
     print(primary_color_hex)
     print(secondary_color_hex)
 
     # Annotate elements and get the dominant color of each element
     detect_clickable_elements(image_path)
+
 
 if __name__ == "__main__":
     main()
